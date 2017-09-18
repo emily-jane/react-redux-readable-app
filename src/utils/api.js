@@ -14,6 +14,14 @@ export function getCategories() {
   return axios.get(`${api}/categories`);
 }
 
-export function getPosts(category) {
+export function getPosts() {
   return axios.get(`${api}/posts`);
+}
+
+export function getSinglePost(postId) {
+  return axios.get(`${api}/posts/${postId}`);
+}
+
+export function getComments(postId) {
+  return axios.get(`${api}/posts/${postId}/comments`);
 }

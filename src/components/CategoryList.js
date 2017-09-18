@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PostList from './PostList';
 import { connect } from 'react-redux';
 import { fetchCategories, fetchPosts } from '../actions';
+import { Link } from 'react-router-dom';
 
 class CategoryList extends Component {
   componentDidMount() {
@@ -30,7 +30,7 @@ class CategoryList extends Component {
               <h2>{category.name}</h2>
               {this.props.posts.filter((post) => post.category === category.name).map(post => {
                 return (
-                  <div key={post.id} className="list-group-item">{post.title}</div>
+                  <Link key={post.id} className="list-group-item" to={`/${category.name}/${post.id}`}>{post.title}</Link>
                 )
               })}
             </div>
