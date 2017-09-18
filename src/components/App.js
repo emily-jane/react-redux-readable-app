@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import '../App.css';
-import Category from './Category';
+import CategoryList from './CategoryList';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Category />
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Switch>
+            <Route exact path="/" component={CategoryList} />
+            <Route path='/:category' component={CategoryList} />
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }

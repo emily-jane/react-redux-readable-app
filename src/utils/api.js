@@ -13,3 +13,7 @@ axios.defaults.headers.common['Authorization'] = AUTH_HEADERS;
 export function getCategories() {
   return axios.get(`${api}/categories`);
 }
+
+export function getPosts(category) {
+  return axios.get(`${api}/posts`);
+}

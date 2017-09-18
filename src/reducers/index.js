@@ -6,6 +6,6 @@ import commentsReducer from './commentsReducer';
 
 export default combineReducers({
   categories: categoriesReducer,
-  // posts: postsReducer,
+  posts: postsReducer,
   // comments: commentsReducer
 });
