@@ -22,6 +22,6 @@ export function getSinglePost(postId) {
   return axios.get(`${api}/posts/${postId}`);
 }
 
-export function getComments(postId) {
+export function getPostsComments(postId) {
   return axios.get(`${api}/posts/${postId}/comments`);
 }

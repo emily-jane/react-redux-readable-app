@@ -26,13 +26,17 @@ class CategoryList extends Component {
       <div>
         {this.filteredCategories().map((category) => {
           return (
-            <div key={category.name} className="list-group">
-              <h2>{category.name}</h2>
-              {this.props.posts.filter((post) => post.category === category.name).map(post => {
-                return (
-                  <Link key={post.id} className="list-group-item" to={`/${category.name}/${post.id}`}>{post.title}</Link>
-                )
-              })}
+            <div key={category.name} className="panel panel-info">
+              <div className="panel-heading">
+                <h3 className="panel-title"><Link to={`/${category.name}`}>{category.name}</Link></h3>
+              </div>
+              <ul className="list-group">
+                {this.props.posts.filter((post) => post.category === category.name).map(post => {
+                  return (
+                    <Link key={post.id} className="list-group-item" to={`/${category.name}/${post.id}`}>{post.title}</Link>
+                  )
+                })}
+              </ul>
             </div>
           )
         })}

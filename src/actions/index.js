@@ -1,9 +1,9 @@
-import { getCategories, getPosts, getSinglePost, getComments } from '../utils/api';
+import { getCategories, getPosts, getSinglePost, getPostsComments } from '../utils/api';
 
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const FETCH_SINGLE_POST = 'FETCH_SINGLE_POST';
-export const FETCH_COMMENTS = 'FETCH_COMMENTS';
+export const FETCH_POSTS_COMMENTS = 'FETCH_POSTS_COMMENTS';
 
 export const fetchCategories = () => dispatch => {
   getCategories()
@@ -26,7 +26,7 @@ export const fetchPosts = () => dispatch => {
 };
 
 export const fetchSinglePost = (id) => dispatch => {
-    getSinglePost()
+    getSinglePost(id)
     .then(function (response) {
       return dispatch({
         type: FETCH_SINGLE_POST,
@@ -35,11 +35,11 @@ export const fetchSinglePost = (id) => dispatch => {
     })
 };
 
-export const fetchComments = (postId) => dispatch => {
-    getComments()
+export const fetchPostsComments = (postId) => dispatch => {
+    getPostsComments(postId)
     .then(function (response) {
       return dispatch({
-        type: FETCH_COMMENTS,
+        type: FETCH_POSTS_COMMENTS,
         payload: response.data
       })
     })
