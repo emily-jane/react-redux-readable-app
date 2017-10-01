@@ -33,7 +33,10 @@ class CategoryList extends Component {
               <ul className="list-group">
                 {this.props.posts.filter((post) => post.category === category.name).map(post => {
                   return (
-                    <Link key={post.id} className="list-group-item" to={`/${category.name}/${post.id}`}>{post.title}</Link>
+                    <li className="list-group-item" key={post.id}>
+                      <Link to={`/${category.name}/${post.id}`}>{post.title}</Link>
+                      <span className="badge">{post.voteScore}</span>
+                    </li>
                   )
                 })}
               </ul>

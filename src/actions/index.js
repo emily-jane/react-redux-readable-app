@@ -1,9 +1,17 @@
-import { getCategories, getPosts, getSinglePost, getPostsComments } from '../utils/api';
+import {
+  getCategories,
+  getPosts,
+  getSinglePost,
+  getPostsComments,
+  postPost
+} from '../utils/api';
+import uuidv4 from 'uuid/v4';
 
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const FETCH_SINGLE_POST = 'FETCH_SINGLE_POST';
 export const FETCH_POSTS_COMMENTS = 'FETCH_POSTS_COMMENTS';
+export const CREATE_POST = 'CREATE_POST';
 
 export const fetchCategories = () => dispatch => {
   getCategories()
@@ -44,3 +52,24 @@ export const fetchPostsComments = (postId) => dispatch => {
       })
     })
 };
+
+export const createPost = (props) => dispatch => {
+  const { title, body, author, category } = props;
+
+  const data = {
+    id: uuidv4(),
+    timestamp: Date.now(),
+    title,
+    body,
+    author,
+    category
+  }
+
+  postPost(data)
+  .then(function(response) {
+    return dispatch({
+      type: CREATE_POST,
+      payload: response.data
+    })
+  })
+}

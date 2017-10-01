@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import CategoryList from './CategoryList';
 import Post from './Post';
+import PostNew from './PostNew';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 class App extends Component {
@@ -14,6 +15,11 @@ class App extends Component {
               <div className="navbar-header">
                 <Link className="navbar-brand" to='/'>Readable</Link>
               </div>
+              <ul className="nav navbar-nav">
+                <li><Link to='/react'>React</Link></li>
+                <li><Link to='/redux'>Redux</Link></li>
+                <li><Link to='/udacity'>Udacity</Link></li>
+              </ul>
               <ul className="nav navbar-nav navbar-right">
                 <li><Link to='/create'>Add Post</Link></li>
               </ul>
@@ -22,6 +28,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={CategoryList} />
             <Route path='/:category/:postId' component={Post} />
+            <Route path='/create' component={PostNew} />
             <Route path='/:category' component={CategoryList} />
 
           </Switch>
