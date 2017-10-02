@@ -1,40 +1,87 @@
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
-import { createPost } from '../actions/index';
+import { Field, reduxForm } from 'redux-form';
+import { createPost } from '../actions';
 
 class PostNew extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   onSubmit(values) {
-    // this.props.createPost(values);
-    console.log('hey')
-    console.log(this.props.fields)
+    this.props.dispatch(createPost(values, () => {
+      this.props.history.push('/');
+    }))
+  }
+
+  renderTextField(field) {
+    return (
+      <div className="form-group">
+        <label>{field.label}</label>
+        <input
+          type="text"
+          className="form-control"
+          {...field.input}
+        />
+      </div>
+    )
+  }
+
+  renderTextareaField(field) {
+    return (
+      <div className="form-group">
+        <label>{field.label}</label>
+        <textarea
+          className="form-control"
+          {...field.input}
+        />
+      </div>
+    )
+  }
+
+  renderCategoryField(field) {
+    return (
+      <div className="form-group">
+        <label>{field.label}</label>
+        <select className="form-control" {...field.input}>
+          <option></option>
+          <option value="react">React</option>
+          <option value="redux">Redux</option>
+          <option value="udacity">Udacity</option>
+        </select>
+      </div>
+    )
   }
 
   render() {
-    const { fields: { title, body, author, category }, handleSubmit } = this.props;
+    const { handleSubmit } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <form className="col-xs-6" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h3>Create New Post</h3>
 
-        <div className='form-group'>
-          <label>Title</label>
-          <input type="text" className="form-control" {...title} />
-        </div>
+        <Field
+          name="title"
+          label="Title"
+          component={this.renderTextField}
+        />
 
-        <div className='form-group'>
-          <label>Body</label>
-          <textarea className="form-control" {...body} />
-        </div>
+        <Field
+          name="body"
+          label="Body"
+          component={this.renderTextareaField}
+        />
 
-        <div className='form-group'>
-          <label>Author</label>
-          <input type="text" className="form-control" {...author} />
-        </div>
+        <Field
+          name="author"
+          label="Author"
+          component={this.renderTextField}
+        />
 
-        <div className='form-group'>
-          <label>Category</label>
-          <input type="text" className="form-control" {...category} />
-        </div>
+        <Field
+          name="category"
+          label="Category"
+          component={this.renderCategoryField}
+        />
 
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>

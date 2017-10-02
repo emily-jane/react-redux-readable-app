@@ -4,6 +4,10 @@ import { fetchCategories, fetchPosts } from '../actions';
 import { Link } from 'react-router-dom';
 
 class CategoryList extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
     this.props.fetchCategories();
     this.props.fetchPosts();

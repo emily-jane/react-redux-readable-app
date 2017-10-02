@@ -53,7 +53,7 @@ export const fetchPostsComments = (postId) => dispatch => {
     })
 };
 
-export const createPost = (props) => dispatch => {
+export function createPost(props, callback) {
   const { title, body, author, category } = props;
 
   const data = {
@@ -65,11 +65,10 @@ export const createPost = (props) => dispatch => {
     category
   }
 
-  postPost(data)
-  .then(function(response) {
-    return dispatch({
-      type: CREATE_POST,
-      payload: response.data
-    })
-  })
+  const request = postPost(data).then(() => callback());
+
+  return {
+    type: CREATE_POST,
+    payload: request.data
+  }
 }
