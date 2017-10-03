@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCategories, fetchPosts } from '../actions';
+import { fetchCategories, fetchPosts, removePost } from '../actions';
 import { Link } from 'react-router-dom';
 
 class CategoryList extends Component {
@@ -13,6 +13,12 @@ class CategoryList extends Component {
     this.props.fetchPosts();
   }
 
+  handleDeletePost(postId) {
+    this.props.removePost(postId, () => {
+      this.props.history.push('/');
+    })
+  }
+
   filteredCategories() {
     if (this.props.match.params.category) {
       return this.props.categories.filter((category) => category.name === this.props.match.params.category)
@@ -22,7 +28,7 @@ class CategoryList extends Component {
   }
 
   filteredPosts(categoryName) {
-    return this.props.posts.filter((post) => post.category === categoryName)
+    return this.props.posts.filter((post) => post.category === categoryName && post.deleted === false)
   }
 
   render() {
@@ -35,10 +41,11 @@ class CategoryList extends Component {
                 <h3 className="panel-title"><Link to={`/${category.name}`}>{category.name}</Link></h3>
               </div>
               <ul className="list-group">
-                {this.props.posts.filter((post) => post.category === category.name).map(post => {
+                {this.filteredPosts(category.name).map(post => {
                   return (
                     <li className="list-group-item" key={post.id}>
                       <Link to={`/${category.name}/${post.id}`}>{post.title}</Link>
+                      <button className="btn-link" onClick={() => {this.handleDeletePost(post.id)}}>| DELETE |</button>
                       <span className="badge">{post.voteScore}</span>
                     </li>
                   )
@@ -59,4 +66,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { fetchCategories, fetchPosts })(CategoryList);
+export default connect(mapStateToProps, { fetchCategories, fetchPosts, removePost })(CategoryList);

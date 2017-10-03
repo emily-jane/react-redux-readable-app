@@ -29,3 +29,7 @@ export function getPostsComments(postId) {
 export function postPost(data) {
   return axios.post(`${api}/posts`, data);
 }
+
+export function deletePost(postId) {
+  return axios.delete(`${api}/posts/${postId}`);
+}
