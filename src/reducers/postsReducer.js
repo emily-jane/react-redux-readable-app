@@ -10,7 +10,7 @@ function posts (state = [], action) {
     case FETCH_POSTS :
       return action.payload;
     case FETCH_SINGLE_POST :
-      return action.payload;
+      return [action.payload];
     case CREATE_POST :
       return [
         ...state,
