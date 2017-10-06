@@ -7,7 +7,7 @@ function comments (state = [], action) {
     case CREATE_COMMENT :
       return [
         ...state,
-        {...action.payload, voteScore: 1}
+        {...action.payload, deleted: false, voteScore: 1}
       ]
     case DELETE_COMMENT :
       return state.map((comment) => {
