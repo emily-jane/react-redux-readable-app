@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCategories, fetchPosts, removePost } from '../actions';
+import { fetchCategories, fetchPosts, removePost, changePostVote } from '../actions';
 import { Link } from 'react-router-dom';
 
 class CategoryList extends Component {
@@ -27,6 +27,10 @@ class CategoryList extends Component {
     return this.props.posts.filter((post) => post.category === categoryName && post.deleted === false)
   }
 
+  voteOnPost(postId, direction) {
+    this.props.changePostVote(postId, direction);
+  }
+
   render() {
     return (
       <div>
@@ -40,6 +44,8 @@ class CategoryList extends Component {
                 {this.filteredPosts(category.name).map(post => {
                   return (
                     <li className="list-group-item" key={post.id}>
+                      <button className="btn btn-primary" onClick={() => {this.voteOnPost(post.id, "upVote")}}>UP</button>
+                      <button className="btn btn-primary" onClick={() => {this.voteOnPost(post.id, "downVote")}}>DOWN</button>
                       <Link to={`/${category.name}/${post.id}`}>{post.title}</Link>
                       <button className="btn-link" onClick={() => {this.handleDeletePost(post.id)}}>| DELETE |</button>
                       <Link  to={`/edit/${post.id}`}>| EDIT |</Link>
@@ -63,4 +69,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { fetchCategories, fetchPosts, removePost })(CategoryList);
+export default connect(mapStateToProps, { fetchCategories, fetchPosts, removePost, changePostVote })(CategoryList);

@@ -6,7 +6,9 @@ import {
   postPost,
   postComment,
   deletePost,
-  deleteComment
+  deleteComment,
+  postPostVote,
+  postCommentVote
 } from '../utils/api';
 import uuidv4 from 'uuid/v4';
 
@@ -18,10 +20,12 @@ export const CREATE_POST = 'CREATE_POST';
 export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const DELETE_POST = 'DELETE_POST';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const CHANGE_POST_VOTE = 'CHANGE_POST_VOTE';
+export const CHANGE_COMMENT_VOTE = 'CHANGE_COMMENT_VOTE';
 
 export const fetchCategories = () => dispatch => {
   getCategories()
-    .then(function (response) {
+    .then((response) => {
       return dispatch({
         type: FETCH_CATEGORIES,
         payload: response.data.categories
@@ -31,7 +35,7 @@ export const fetchCategories = () => dispatch => {
 
 export const fetchPosts = () => dispatch => {
     getPosts()
-    .then(function (response) {
+    .then((response) => {
       return dispatch({
         type: FETCH_POSTS,
         payload: response.data
@@ -41,7 +45,7 @@ export const fetchPosts = () => dispatch => {
 
 export const fetchSinglePost = (id) => dispatch => {
     getSinglePost(id)
-    .then(function (response) {
+    .then((response) => {
       return dispatch({
         type: FETCH_SINGLE_POST,
         payload: response.data
@@ -51,7 +55,7 @@ export const fetchSinglePost = (id) => dispatch => {
 
 export const fetchPostsComments = (postId) => dispatch => {
     getPostsComments(postId)
-    .then(function (response) {
+    .then((response) => {
       return dispatch({
         type: FETCH_POSTS_COMMENTS,
         payload: response.data
@@ -112,6 +116,32 @@ export const removeComment = (commentId) => dispatch => {
     return dispatch({
       type: DELETE_COMMENT,
       payload: commentId
+    })
+  })
+}
+
+export const changePostVote = (postId, direction) => dispatch => {
+  postPostVote(postId, direction)
+  .then(() => {
+    return dispatch({
+      type: CHANGE_POST_VOTE,
+      payload: {
+        postId,
+        direction
+      }
+    })
+  })
+}
+
+export const changeCommentVote = (commentId, direction) => dispatch => {
+  postCommentVote(commentId, direction)
+  .then(() => {
+    return dispatch({
+      type: CHANGE_COMMENT_VOTE,
+      payload: {
+        commentId,
+        direction
+      }
     })
   })
 }

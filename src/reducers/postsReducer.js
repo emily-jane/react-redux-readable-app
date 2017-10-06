@@ -2,7 +2,8 @@ import {
   FETCH_POSTS,
   FETCH_SINGLE_POST,
   CREATE_POST,
-  DELETE_POST
+  DELETE_POST,
+  CHANGE_POST_VOTE
 } from '../actions';
 
 function posts (state = [], action) {
@@ -19,6 +20,11 @@ function posts (state = [], action) {
     case DELETE_POST :
       return state.map((post) => {
         return (post.id === action.payload) ? {...post, deleted: true} : post
+      })
+    case CHANGE_POST_VOTE :
+      return state.map((post) => {
+        const currentScore = post.voteScore
+        return (post.id === action.payload.postId) ? {...post, voteScore: action.payload.direction === "upVote" ? currentScore + 1 : currentScore - 1} : post
       })
     default :
       return state;

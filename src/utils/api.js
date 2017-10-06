@@ -41,3 +41,11 @@ export function deletePost(postId) {
 export function deleteComment(commentId) {
   return axios.delete(`${api}/comments/${commentId}`);
 }
+
+export function postPostVote(postId, option) {
+  return axios.post(`${api}/posts/${postId}`, {option});
+}
+
+export function postCommentVote(commentId, option) {
+  return axios.post(`${api}/comments/${commentId}`, {option});
+}

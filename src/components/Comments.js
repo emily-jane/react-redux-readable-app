@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CommentNew from './CommentNew';
 import { connect } from 'react-redux';
-import { fetchPostsComments, removeComment } from '../actions';
+import { fetchPostsComments, removeComment, changeCommentVote } from '../actions';
 
 class Comments extends Component {
   componentDidMount() {
@@ -16,6 +16,10 @@ class Comments extends Component {
     this.props.removeComment(commentId);
   }
 
+  voteOnComment(commentId, direction) {
+    this.props.changeCommentVote(commentId, direction);
+  }
+
   render() {
     const { comments } = this.props;
 
@@ -26,7 +30,9 @@ class Comments extends Component {
               {this.filteredComments().map((comment) => {
                 return (
                   <li className="list-group-item" key={comment.id}>
-                    {comment.body} - {comment.author} -
+                    <button className="btn btn-primary" onClick={() => {this.voteOnComment(comment.id, "upVote")}}>UP</button>
+                      <button className="btn btn-primary" onClick={() => {this.voteOnComment(comment.id, "downVote")}}>DOWN</button>
+                    {comment.body} - {comment.author}
                     <button className="btn-link" onClick={() => this.removeComment(comment.id)}>| DELETE |</button>
                     <span className="badge">{comment.voteScore}</span>
                   </li>
@@ -46,4 +52,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { fetchPostsComments, removeComment })(Comments);
+export default connect(mapStateToProps, { fetchPostsComments, removeComment, changeCommentVote })(Comments);
