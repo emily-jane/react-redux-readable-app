@@ -5,7 +5,8 @@ import {
   getPostsComments,
   postPost,
   postComment,
-  deletePost
+  deletePost,
+  deleteComment
 } from '../utils/api';
 import uuidv4 from 'uuid/v4';
 
@@ -16,6 +17,7 @@ export const FETCH_POSTS_COMMENTS = 'FETCH_POSTS_COMMENTS';
 export const CREATE_POST = 'CREATE_POST';
 export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const DELETE_POST = 'DELETE_POST';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 
 export const fetchCategories = () => dispatch => {
   getCategories()
@@ -102,4 +104,14 @@ export function removePost(postId, callback) {
     type: DELETE_POST,
     payload: postId
   }
+}
+
+export const removeComment = (commentId) => dispatch => {
+  deleteComment(commentId)
+  .then(() => {
+    return dispatch({
+      type: DELETE_COMMENT,
+      payload: commentId
+    })
+  })
 }

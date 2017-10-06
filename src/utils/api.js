@@ -37,3 +37,7 @@ export function postComment(data) {
 export function deletePost(postId) {
   return axios.delete(`${api}/posts/${postId}`);
 }
+
+export function deleteComment(commentId) {
+  return axios.delete(`${api}/comments/${commentId}`);
+}

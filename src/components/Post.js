@@ -22,16 +22,25 @@ class CategoryList extends Component {
     return (
         <div>
           {posts.length === 1 ? (
-            <div className="panel panel-info">
-              <div className="panel-heading">
-                <h3 className="panel-title">{posts[0].title}</h3>
-                <button className="btn-link" onClick={() => {this.handleDeletePost(postId)}}>| DELETE |</button>
+            <div>
+              <div className="panel panel-info">
+                <div className="panel-heading">
+                  <h3 className="panel-title">{posts[0].title}</h3>
+                  <button className="btn-link" onClick={() => {this.handleDeletePost(postId)}}>| DELETE |</button>
+                </div>
+                <div className="panel-body">
+                  <ul className="post-container list-group col-xs-12">
+                    <li className="post-body"><h2>{posts[0].body}</h2></li>
+                    <li>({posts[0].author}, {posts[0].timestamp})</li>
+                  </ul>
+                </div>
               </div>
-              <ul className="post-container list-group col-xs-12">
-                <li className="post-body"><h2>{posts[0].body}</h2></li>
-                <li>({posts[0].author}, {posts[0].timestamp})</li>
-              </ul>
-              <Comments postId={postId} />
+              <div className="panel panel-info">
+                <div className="panel-heading">
+                  <h3 className="panel-title">COMMENTS</h3>
+                </div>
+                <Comments postId={postId} />
+              </div>
             </div>
           ) : null}
         </div>

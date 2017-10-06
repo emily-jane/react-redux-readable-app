@@ -1,4 +1,4 @@
-import { FETCH_POSTS_COMMENTS, CREATE_COMMENT } from '../actions';
+import { FETCH_POSTS_COMMENTS, CREATE_COMMENT, DELETE_COMMENT } from '../actions';
 
 function comments (state = [], action) {
   switch (action.type) {
@@ -9,6 +9,10 @@ function comments (state = [], action) {
         ...state,
         {...action.payload, voteScore: 1}
       ]
+    case DELETE_COMMENT :
+      return state.map((comment) => {
+        return (comment.id === action.payload) ? {...comment, deleted: true} : comment
+      })
     default :
       return state;
   }

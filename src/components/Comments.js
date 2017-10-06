@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
+import CommentNew from './CommentNew';
 import { connect } from 'react-redux';
-import { fetchPostsComments, createComment } from '../actions';
+import { fetchPostsComments, removeComment } from '../actions';
 
 class Comments extends Component {
   componentDidMount() {
     this.props.fetchPostsComments(this.props.postId);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    const postId = this.props.postId;
-    const author = this.refs.author.value;
-    const comment = this.refs.comment.value;
-    this.props.createComment(comment, author, postId);
-    this.refs.commentForm.reset();
+  filteredComments() {
+    return this.props.comments.filter((comment) => comment.deleted === false)
+  }
+
+  removeComment(commentId) {
+    this.props.removeComment(commentId);
   }
 
   render() {
@@ -23,21 +23,18 @@ class Comments extends Component {
         <div>
           {comments.length >= 1 ? (
             <ul className="post-container list-group col-xs-12">
-              {this.props.comments.map((comment) => {
+              {this.filteredComments().map((comment) => {
                 return (
                   <li className="list-group-item" key={comment.id}>
-                    {comment.body} - {comment.author}
+                    {comment.body} - {comment.author} -
+                    <button className="btn-link" onClick={() => this.removeComment(comment.id)}>| DELETE |</button>
                     <span className="badge">{comment.voteScore}</span>
                   </li>
                 )
               })}
             </ul>
           ) : null}
-          <form ref="commentForm" className="input-group" onSubmit={this.handleSubmit.bind(this)}>
-            <input type="text" className="form-control" ref="comment" placeholder="comment"/>
-            <input type="text" className="form-control" ref="author" placeholder="author"/>
-            <input type="submit" className="btn btn-primary"/>
-          </form>
+          <CommentNew postId={this.props.postId}/>
         </div>
     )
   }
@@ -49,4 +46,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { fetchPostsComments, createComment })(Comments);
+export default connect(mapStateToProps, { fetchPostsComments, removeComment })(Comments);
