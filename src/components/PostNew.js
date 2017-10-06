@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { createPost } from '../actions';
+import { createPost, fetchSinglePost } from '../actions';
 
 class PostNew extends Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    if (this.props.match.params.postId) {
+      this.props.dispatch(fetchSinglePost(this.props.match.params.postId));
+    }
   }
 
   onSubmit(values) {
@@ -55,13 +57,21 @@ class PostNew extends Component {
   render() {
     const { handleSubmit } = this.props;
 
+    const myInitalValues = {
+      initialValues: {
+        title: 'hello',
+        body: 'woah there'
+      }
+    }
+
     return (
-      <form className="col-xs-6" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <form {...myInitalValues} className="col-xs-6" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h3>Create New Post</h3>
 
         <Field
           name="title"
           label="Title"
+
           component={this.renderTextField}
         />
 
@@ -92,4 +102,4 @@ class PostNew extends Component {
 export default reduxForm({
   form: 'PostNewForm',
   fields: ['title', 'body', 'author', 'category']
-}, null, { createPost })(PostNew);
+}, null, { createPost, fetchSinglePost })(PostNew);

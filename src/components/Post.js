@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Comments from './Comments'
 import { connect } from 'react-redux';
 import { fetchSinglePost, fetchPostsComments, removePost } from '../actions';
 
@@ -30,16 +31,7 @@ class CategoryList extends Component {
                 <li className="post-body"><h2>{posts[0].body}</h2></li>
                 <li>({posts[0].author}, {posts[0].timestamp})</li>
               </ul>
-              <ul className="post-container list-group col-xs-12">
-                {this.props.comments.map((comment) => {
-                  return (
-                    <li className="list-group-item" key={comment.id}>
-                      {comment.body}
-                      <span className="badge">{comment.voteScore}</span>
-                    </li>
-                  )
-                })}
-              </ul>
+              <Comments postId={postId} />
             </div>
           ) : null}
         </div>

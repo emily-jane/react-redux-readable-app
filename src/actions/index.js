@@ -4,6 +4,7 @@ import {
   getSinglePost,
   getPostsComments,
   postPost,
+  postComment,
   deletePost
 } from '../utils/api';
 import uuidv4 from 'uuid/v4';
@@ -13,6 +14,7 @@ export const FETCH_POSTS = 'FETCH_POSTS';
 export const FETCH_SINGLE_POST = 'FETCH_SINGLE_POST';
 export const FETCH_POSTS_COMMENTS = 'FETCH_POSTS_COMMENTS';
 export const CREATE_POST = 'CREATE_POST';
+export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const DELETE_POST = 'DELETE_POST';
 
 export const fetchCategories = () => dispatch => {
@@ -73,6 +75,24 @@ export function createPost(props, callback) {
     type: CREATE_POST,
     payload: data
   }
+}
+
+export const createComment = (body, author, parentId) => dispatch => {
+  const data = {
+    id: uuidv4(),
+    timestamp: Date.now(),
+    body,
+    author,
+    parentId
+  }
+
+  postComment(data)
+  .then(() => {
+    return dispatch({
+      type: CREATE_COMMENT,
+      payload: data
+    })
+  })
 }
 
 export function removePost(postId, callback) {

@@ -30,6 +30,10 @@ export function postPost(data) {
   return axios.post(`${api}/posts`, data);
 }
 
+export function postComment(data) {
+  return axios.post(`${api}/comments`, data);
+}
+
 export function deletePost(postId) {
   return axios.delete(`${api}/posts/${postId}`);
 }

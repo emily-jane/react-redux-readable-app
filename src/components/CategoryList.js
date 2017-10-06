@@ -4,10 +4,6 @@ import { fetchCategories, fetchPosts, removePost } from '../actions';
 import { Link } from 'react-router-dom';
 
 class CategoryList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.props.fetchCategories();
     this.props.fetchPosts();
@@ -46,6 +42,7 @@ class CategoryList extends Component {
                     <li className="list-group-item" key={post.id}>
                       <Link to={`/${category.name}/${post.id}`}>{post.title}</Link>
                       <button className="btn-link" onClick={() => {this.handleDeletePost(post.id)}}>| DELETE |</button>
+                      <Link  to={`/edit/${post.id}`}>| EDIT |</Link>
                       <span className="badge">{post.voteScore}</span>
                     </li>
                   )

@@ -27,10 +27,10 @@ class App extends Component {
           </nav>
           <Switch>
             <Route exact path="/" component={CategoryList} />
+            <Route path='/edit/:postId' component={PostNew} />
             <Route path='/:category/:postId' component={Post} />
             <Route path='/create' component={PostNew} />
             <Route path='/:category' component={CategoryList} />
-
           </Switch>
         </div>
       </BrowserRouter>
