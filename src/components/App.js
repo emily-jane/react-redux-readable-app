@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import CategoryList from './CategoryList';
 import Post from './Post';
-import PostNewForm from './PostNew';
+import PostNewForm from './PostForm';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import { sortPosts } from '../actions';
 import { connect } from 'react-redux';

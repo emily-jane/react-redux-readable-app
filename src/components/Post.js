@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Comments from './Comments'
 import { connect } from 'react-redux';
 import { fetchSinglePost, fetchPostsComments, removePost } from '../actions';
+import { Link } from 'react-router-dom';
 
 class CategoryList extends Component {
   componentDidMount() {
@@ -27,6 +28,7 @@ class CategoryList extends Component {
                 <div className="panel-heading">
                   <h3 className="panel-title">{posts.title}</h3>
                   <button className="btn-link" onClick={() => {this.handleDeletePost(postId)}}>| DELETE |</button>
+                  <Link to={`/edit/${posts.id}`}>| EDIT |</Link>
                 </div>
                 <div className="panel-body">
                   <ul className="post-container list-group col-xs-12">
