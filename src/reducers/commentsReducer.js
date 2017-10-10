@@ -8,7 +8,7 @@ import {
 function comments (state = [], action) {
   switch (action.type) {
     case FETCH_POSTS_COMMENTS :
-      return action.payload;
+      return action.payload
     case CREATE_COMMENT :
       return [
         ...state,

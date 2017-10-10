@@ -21,6 +21,17 @@ class App extends Component {
                 <li><Link to='/udacity'>Udacity</Link></li>
               </ul>
               <ul className="nav navbar-nav navbar-right">
+                <li>Order posts by...</li>
+                <li>
+                  <form className="navbar-form navbar-left" role="search">
+                    <div className="form-group">
+                      <select className="form-control">
+                        <option>Vote Score</option>
+                        <option>Timestamp</option>
+                      </select>
+                    </div>
+                  </form>
+                </li>
                 <li><Link to='/create'>Add Post</Link></li>
               </ul>
             </div>

@@ -12,6 +12,12 @@ class Comments extends Component {
     return this.props.comments.filter((comment) => comment.deleted === false)
   }
 
+  sortedComments() {
+    return this.filteredComments().sort((a,b) => {
+      return (a.voteScore < b.voteScore) ? 1 : ((b.voteScore < a.voteScore) ? -1 : 0);
+    })
+  }
+
   removeComment(commentId) {
     this.props.removeComment(commentId);
   }
@@ -27,7 +33,7 @@ class Comments extends Component {
         <div>
           {comments.length >= 1 ? (
             <ul className="post-container list-group col-xs-12">
-              {this.filteredComments().map((comment) => {
+              {this.sortedComments().map((comment) => {
                 return (
                   <li className="list-group-item" key={comment.id}>
                     <button className="btn btn-primary" onClick={() => {this.voteOnComment(comment.id, "upVote")}}>UP</button>
