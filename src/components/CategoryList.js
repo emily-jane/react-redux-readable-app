@@ -23,8 +23,15 @@ class CategoryList extends Component {
     }
   }
 
+  sortedPosts() {
+    const option = this.props.sortPosts;
+    return this.props.posts.sort((a,b) => {
+      return (a[option] < b[option]) ? 1 : ((b[option] < a[option]) ? -1 : 0);
+    })
+  }
+
   filteredPosts(categoryName) {
-    return this.props.posts.filter((post) => post.category === categoryName && post.deleted === false)
+    return this.sortedPosts().filter((post) => post.category === categoryName && post.deleted === false)
   }
 
   voteOnPost(postId, direction) {
@@ -66,6 +73,7 @@ function mapStateToProps(state) {
   return {
     categories: state.categories,
     posts: state.posts,
+    sortPosts: state.sortPosts
   }
 }
 

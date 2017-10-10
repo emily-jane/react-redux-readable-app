@@ -22,6 +22,7 @@ export const DELETE_POST = 'DELETE_POST';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const CHANGE_POST_VOTE = 'CHANGE_POST_VOTE';
 export const CHANGE_COMMENT_VOTE = 'CHANGE_COMMENT_VOTE';
+export const SORT_POSTS = 'SORT_POSTS';
 
 export const fetchCategories = () => dispatch => {
   getCategories()
@@ -143,5 +144,12 @@ export const changeCommentVote = (commentId, direction) => dispatch => {
         direction
       }
     })
+  })
+}
+
+export const sortPosts = (option) => dispatch => {
+  return dispatch({
+    type: SORT_POSTS,
+    payload: option
   })
 }

@@ -4,6 +4,8 @@ import CategoryList from './CategoryList';
 import Post from './Post';
 import PostNew from './PostNew';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { sortPosts } from '../actions';
+import { connect } from 'react-redux';
 
 class App extends Component {
   render() {
@@ -25,9 +27,9 @@ class App extends Component {
                 <li>
                   <form className="navbar-form navbar-left" role="search">
                     <div className="form-group">
-                      <select className="form-control">
-                        <option>Vote Score</option>
-                        <option>Timestamp</option>
+                      <select className="form-control" onChange={(event) => {this.props.sortPosts(event.target.value)}}>
+                        <option value="voteScore">Vote Score</option>
+                        <option value="timestamp">Timestamp</option>
                       </select>
                     </div>
                   </form>
@@ -49,4 +51,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(null, { sortPosts })(App);
