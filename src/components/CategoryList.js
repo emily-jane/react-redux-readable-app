@@ -72,7 +72,7 @@ class CategoryList extends Component {
 function mapStateToProps(state) {
   return {
     categories: state.categories,
-    posts: state.posts,
+    posts: (Array.isArray(state.posts) ? state.posts : [state.posts]),
     sortPosts: state.sortPosts
   }
 }

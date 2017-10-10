@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { createPost, fetchSinglePost } from '../actions';
+import { createPost, fetchSinglePost, editPost } from '../actions';
+import { connect } from 'react-redux';
 
-class PostNew extends Component {
-  componentDidMount() {
+class PostNewForm extends Component {
+  componentWillMount() {
     if (this.props.match.params.postId) {
-      this.props.dispatch(fetchSinglePost(this.props.match.params.postId));
+      this.props.fetchSinglePost(this.props.match.params.postId);
     }
   }
 
   onSubmit(values) {
-    this.props.dispatch(createPost(values, () => {
-      this.props.history.push('/');
-    }))
+    const postId = this.props.match.params.postId;
+    if (postId) {
+      const data = {title: values.title, body: values.body};
+      this.props.dispatch(editPost(postId, data, () => {
+        this.props.history.push('/');
+      }))
+    } else {
+      this.props.dispatch(createPost(values, () => {
+        this.props.history.push('/');
+      }))
+    }
   }
 
   renderTextField(field) {
@@ -57,16 +66,9 @@ class PostNew extends Component {
   render() {
     const { handleSubmit } = this.props;
 
-    const myInitalValues = {
-      initialValues: {
-        title: 'hello',
-        body: 'woah there'
-      }
-    }
-
     return (
-      <form {...myInitalValues} className="col-xs-6" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-        <h3>Create New Post</h3>
+      <form className="col-xs-6" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+        <h3>{this.props.match.params.postId ? 'Edit' : 'Create New'} Post</h3>
 
         <Field
           name="title"
@@ -80,18 +82,21 @@ class PostNew extends Component {
           label="Body"
           component={this.renderTextareaField}
         />
+        {!this.props.match.params.postId ? (
+        <div>
+          <Field
+            name="author"
+            label="Author"
+            component={this.renderTextField}
+          />
 
-        <Field
-          name="author"
-          label="Author"
-          component={this.renderTextField}
-        />
-
-        <Field
-          name="category"
-          label="Category"
-          component={this.renderCategoryField}
-        />
+          <Field
+            name="category"
+            label="Category"
+            component={this.renderCategoryField}
+          />
+        </div>
+        ) : null}
 
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
@@ -99,7 +104,23 @@ class PostNew extends Component {
   }
 }
 
-export default reduxForm({
+function mapStateToProps(state, ownProps) {
+  const postId = ownProps.match.params.postId;
+  return {
+    posts: state.posts,
+    initialValues: {
+      title: postId ? state.posts.title : '',
+      body: postId ? state.posts.body : '',
+      author: '',
+      category: ''
+    }
+  }
+}
+
+let formComponent = reduxForm({
+  enableReinitialize: true,
   form: 'PostNewForm',
   fields: ['title', 'body', 'author', 'category']
-}, null, { createPost, fetchSinglePost })(PostNew);
+})(PostNewForm);
+
+export default connect(mapStateToProps, { createPost, fetchSinglePost, editPost })(formComponent);

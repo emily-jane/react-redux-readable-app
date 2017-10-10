@@ -11,14 +11,15 @@ function posts (state = [], action) {
     case FETCH_POSTS :
       return action.payload;
     case FETCH_SINGLE_POST :
-      return [action.payload];
+      return action.payload;
     case CREATE_POST :
       return [
         ...state,
         action.payload
      ]
     case DELETE_POST :
-      return state.map((post) => {
+      const newState = Array.isArray(state) ? state : [state]
+      return newState.map((post) => {
         return (post.id === action.payload) ? {...post, deleted: true} : post
       })
     case CHANGE_POST_VOTE :

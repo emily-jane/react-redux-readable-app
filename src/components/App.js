@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import CategoryList from './CategoryList';
 import Post from './Post';
-import PostNew from './PostNew';
+import PostNewForm from './PostNew';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import { sortPosts } from '../actions';
 import { connect } from 'react-redux';
@@ -40,9 +40,9 @@ class App extends Component {
           </nav>
           <Switch>
             <Route exact path="/" component={CategoryList} />
-            <Route path='/edit/:postId' component={PostNew} />
+            <Route path='/edit/:postId' component={PostNewForm} />
             <Route path='/:category/:postId' component={Post} />
-            <Route path='/create' component={PostNew} />
+            <Route path='/create' component={PostNewForm} />
             <Route path='/:category' component={CategoryList} />
           </Switch>
         </div>

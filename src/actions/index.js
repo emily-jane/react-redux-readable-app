@@ -8,7 +8,8 @@ import {
   deletePost,
   deleteComment,
   postPostVote,
-  postCommentVote
+  postCommentVote,
+  putPostEdit
 } from '../utils/api';
 import uuidv4 from 'uuid/v4';
 
@@ -23,6 +24,7 @@ export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const CHANGE_POST_VOTE = 'CHANGE_POST_VOTE';
 export const CHANGE_COMMENT_VOTE = 'CHANGE_COMMENT_VOTE';
 export const SORT_POSTS = 'SORT_POSTS';
+export const EDIT_POST = 'EDIT_POST';
 
 export const fetchCategories = () => dispatch => {
   getCategories()
@@ -152,4 +154,13 @@ export const sortPosts = (option) => dispatch => {
     type: SORT_POSTS,
     payload: option
   })
+}
+
+export function editPost(postId, data, callback) {
+  putPostEdit(postId, data).then(() => callback());
+
+  return {
+    type: EDIT_POST,
+    payload: data
+  }
 }
