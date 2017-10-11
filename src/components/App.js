@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div className="App">
+        <div>
           <nav className="navbar navbar-default">
             <div className="container-fluid">
               <div className="navbar-header">
@@ -23,7 +23,7 @@ class App extends Component {
                 <li><Link to='/udacity'>Udacity</Link></li>
               </ul>
               <ul className="nav navbar-nav navbar-right">
-                <li>Order posts by...</li>
+                <p className="navbar-text">Order posts by...</p>
                 <li>
                   <form className="navbar-form navbar-left" role="search">
                     <div className="form-group">

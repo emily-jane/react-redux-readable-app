@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchCategories, fetchPosts, removePost, changePostVote } from '../actions';
 import { Link } from 'react-router-dom';
+import { timestampToDate } from '../utils/helpers';
 
 class CategoryList extends Component {
   componentDidMount() {
@@ -43,24 +44,40 @@ class CategoryList extends Component {
       <div>
         {this.filteredCategories().map((category) => {
           return (
-            <div key={category.name} className="panel panel-info">
+            <div key={category.name} className="panel panel-default">
               <div className="panel-heading">
                 <h3 className="panel-title"><Link to={`/${category.name}`}>{category.name}</Link></h3>
               </div>
-              <ul className="list-group">
-                {this.filteredPosts(category.name).map(post => {
-                  return (
-                    <li className="list-group-item" key={post.id}>
-                      <button className="btn btn-primary" onClick={() => {this.voteOnPost(post.id, "upVote")}}>UP</button>
-                      <button className="btn btn-primary" onClick={() => {this.voteOnPost(post.id, "downVote")}}>DOWN</button>
-                      <Link to={`/${category.name}/${post.id}`}>{post.title}</Link>
-                      <button className="btn-link" onClick={() => {this.handleDeletePost(post.id)}}>| DELETE |</button>
-                      <Link  to={`/edit/${post.id}`}>| EDIT |</Link>
-                      <span className="badge">{post.voteScore}</span>
-                    </li>
-                  )
-                })}
-              </ul>
+              <div className="not-panel-body">
+                <div className="post-list">
+                  {this.filteredPosts(category.name).map(post => {
+                    return (
+                      <div className="post" key={post.id}>
+                        <div className="vote-counter">
+                          <div className="vote up-vote" onClick={() => {this.voteOnPost(post.id, "upVote")}}>
+                            <span className="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                          </div>
+                          <span className="vote-score">{post.voteScore}</span>
+                          <div className="vote down-vote" onClick={() => {this.voteOnPost(post.id, "downVote")}}>
+                            <span className="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                          </div>
+                        </div>
+                        <div className="post-data">
+                          <Link to={`/${category.name}/${post.id}`}><h4>{post.title}</h4></Link>
+                          <div className="post-meta">
+                            <p>Written by {post.author}, at {timestampToDate(post.timestamp)}</p>
+                            <ul>
+                              <li>XXX COMMENTS</li>
+                              <li className="link" onClick={() => {this.handleDeletePost(post.id)}}>Delete</li>
+                              <li><Link className="link" to={`/edit/${post.id}`}>Edit</Link></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
             </div>
           )
         })}

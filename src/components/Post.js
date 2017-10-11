@@ -3,6 +3,7 @@ import Comments from './Comments'
 import { connect } from 'react-redux';
 import { fetchSinglePost, fetchPostsComments, removePost } from '../actions';
 import { Link } from 'react-router-dom';
+import { timestampToDate } from '../utils/helpers';
 
 class CategoryList extends Component {
   componentDidMount() {
@@ -24,22 +25,27 @@ class CategoryList extends Component {
         <div>
           {posts.id ? (
             <div>
-              <div className="panel panel-info">
+              <div className="panel panel-default">
                 <div className="panel-heading">
-                  <h3 className="panel-title">{posts.title}</h3>
-                  <button className="btn-link" onClick={() => {this.handleDeletePost(postId)}}>| DELETE |</button>
-                  <Link to={`/edit/${posts.id}`}>| EDIT |</Link>
+                  <div className="panel-title"><p>{posts.title}</p></div>
+                  <div className="post-data">
+                    <div className="post-meta">
+                      <ul>
+                        <li>XXX COMMENTS</li>
+                        <li className="link" onClick={() => {this.handleDeletePost(postId)}}>Delete</li>
+                        <li><Link className="link" to={`/edit/${posts.id}`}>Edit</Link></li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-                <div className="panel-body">
-                  <ul className="post-container list-group col-xs-12">
-                    <li className="post-body"><h2>{posts.body}</h2></li>
-                    <li>({posts.author}, {posts.timestamp})</li>
-                  </ul>
+                <div className="post-data">
+                    <h2>{posts.body}</h2>
+                    <p>Written by {posts.author}, at {timestampToDate(posts.timestamp)}</p>
                 </div>
               </div>
-              <div className="panel panel-info">
+              <div className="panel panel-default">
                 <div className="panel-heading">
-                  <h3 className="panel-title">COMMENTS</h3>
+                  <div className="panel-title"><p>COMMENTS</p></div>
                 </div>
                 <Comments postId={postId} />
               </div>
