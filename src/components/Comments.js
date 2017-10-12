@@ -1,10 +1,63 @@
 import React, { Component } from 'react';
-import CommentNew from './CommentNew';
 import { connect } from 'react-redux';
-import { fetchPostsComments, removeComment, changeCommentVote } from '../actions';
+import { fetchPostsComments, removeComment, changeCommentVote, createComment, editComment } from '../actions';
 import { timestampToDate } from '../utils/helpers';
+import { Modal } from 'react-bootstrap';
 
 class Comments extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showModal: false,
+      currentComment: {
+        body: '',
+        id: ''
+      }
+    }
+  }
+
+  closeModal() {
+    this.setState({
+      showModal: false,
+      currentComment: {
+        body: '',
+        id: ''
+      }
+    })
+  }
+
+  openEditModal(body, id) {
+    this.setState({
+      showModal: true,
+      currentComment: {
+        body,
+        id
+      }
+    })
+  }
+
+  openNewModal() {
+    this.setState({
+      showModal: true,
+      currentComment: {
+        body: '',
+        id: ''
+      }
+    });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const postId = this.props.postId;
+    const commentId = this.state.currentComment.id;
+    const body = this.refs.comment.value;
+    const author = this.refs.author.value;
+    this.state.currentComment.id !== '' ? this.props.editComment(body, commentId) : this.props.createComment(body, author, postId)
+    this.refs.commentForm.reset();
+    this.closeModal();
+  }
+
   componentDidMount() {
     this.props.fetchPostsComments(this.props.postId);
   }
@@ -31,6 +84,11 @@ class Comments extends Component {
     const { comments } = this.props;
 
     return (
+      <div className="panel panel-default">
+        <div className="panel-heading">
+          <div className="panel-title"><p>{this.props.comments.length} COMMENT{this.props.comments.length === 1 ? '' : 'S'}</p></div>
+          <div className="link" onClick={this.openNewModal.bind(this)}>(Add New Comment)</div>
+        </div>
         <div className="not-panel-body">
           {comments.length >= 1 ? (
             <div className="post-list">
@@ -52,7 +110,7 @@ class Comments extends Component {
                         <p>Written by {comment.author}, at {timestampToDate(comment.timestamp)}</p>
                         <ul>
                           <li className="link" onClick={() => this.removeComment(comment.id)}>Delete</li>
-                          <li>Edit</li>
+                          <li className="link" onClick={() => this.openEditModal(comment.body, comment.id)}>Edit</li>
                         </ul>
                       </div>
                     </div>
@@ -61,8 +119,20 @@ class Comments extends Component {
               })}
             </div>
           ) : null}
-          <CommentNew postId={this.props.postId}/>
+          <Modal show={this.state.showModal}>
+            <Modal.Header>
+              <Modal.Title>{this.state.currentComment.id === '' ? 'New' : 'Edit'} Comment</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form ref="commentForm" className="input-group" onSubmit={this.handleSubmit.bind(this)}>
+                <input type="textarea" className="form-control" ref="comment" placeholder="comment" defaultValue={this.state.currentComment.body}/>
+                <input type={this.state.currentComment.id === '' ? "text" : "hidden"} className="form-control" ref="author" placeholder="author"/>
+                <input type="submit" className="btn btn-primary"/>
+              </form>
+            </Modal.Body>
+          </Modal>
         </div>
+      </div>
     )
   }
 }
@@ -73,4 +143,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { fetchPostsComments, removeComment, changeCommentVote })(Comments);
+export default connect(mapStateToProps, { fetchPostsComments, removeComment, changeCommentVote, createComment, editComment })(Comments);

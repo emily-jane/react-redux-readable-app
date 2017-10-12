@@ -4,6 +4,7 @@ import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+// import '../node_modules/react-bootstrap-modal/lib/styles/rbm-patch.css';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';

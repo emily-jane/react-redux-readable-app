@@ -2,7 +2,8 @@ import {
   FETCH_POSTS_COMMENTS,
   CREATE_COMMENT,
   DELETE_COMMENT,
-  CHANGE_COMMENT_VOTE
+  CHANGE_COMMENT_VOTE,
+  EDIT_COMMENT
 } from '../actions';
 
 function comments (state = [], action) {
@@ -22,6 +23,10 @@ function comments (state = [], action) {
       return state.map((comment) => {
         const currentScore = comment.voteScore
         return (comment.id === action.payload.commentId) ? {...comment, voteScore: action.payload.direction === "upVote" ? currentScore + 1 : currentScore - 1} : comment
+      })
+    case EDIT_COMMENT :
+      return state.map((comment) => {
+        return (comment.id === action.payload.commentId) ? {...comment, body: action.payload.body} : comment
       })
     default :
       return state;

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import Comments from './Comments'
 import { connect } from 'react-redux';
-import { fetchSinglePost, fetchPostsComments, removePost } from '../actions';
+import { fetchSinglePost, removePost } from '../actions';
 import { Link } from 'react-router-dom';
 import { timestampToDate } from '../utils/helpers';
 
 class CategoryList extends Component {
   componentDidMount() {
     this.props.fetchSinglePost(this.props.match.params.postId);
-    this.props.fetchPostsComments(this.props.match.params.postId);
   }
 
   handleDeletePost() {
@@ -31,7 +30,6 @@ class CategoryList extends Component {
                   <div className="post-data">
                     <div className="post-meta">
                       <ul>
-                        <li>XXX COMMENTS</li>
                         <li className="link" onClick={() => {this.handleDeletePost(postId)}}>Delete</li>
                         <li><Link className="link" to={`/edit/${posts.id}`}>Edit</Link></li>
                       </ul>
@@ -43,12 +41,7 @@ class CategoryList extends Component {
                     <p>Written by {posts.author}, at {timestampToDate(posts.timestamp)}</p>
                 </div>
               </div>
-              <div className="panel panel-default">
-                <div className="panel-heading">
-                  <div className="panel-title"><p>COMMENTS</p></div>
-                </div>
-                <Comments postId={postId} />
-              </div>
+              <Comments postId={postId} />
             </div>
           ) : null}
         </div>
@@ -59,9 +52,8 @@ class CategoryList extends Component {
 function mapStateToProps(state) {
   return {
     categories: state.categories,
-    posts: state.posts,
-    comments: state.comments
+    posts: state.posts
   }
 }
 
-export default connect(mapStateToProps, { fetchSinglePost, fetchPostsComments, removePost })(CategoryList);
+export default connect(mapStateToProps, { fetchSinglePost, removePost })(CategoryList);

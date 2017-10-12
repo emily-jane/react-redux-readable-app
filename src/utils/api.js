@@ -53,3 +53,7 @@ export function postCommentVote(commentId, option) {
 export function putPostEdit(postId, data) {
   return axios.put(`${api}/posts/${postId}`, data);
 }
+
+export function putCommentEdit(commentId, data) {
+  return axios.put(`${api}/comments/${commentId}`, data)
+}
