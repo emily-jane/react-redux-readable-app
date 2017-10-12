@@ -36,15 +36,39 @@ export const fetchCategories = () => dispatch => {
     })
 };
 
-export const fetchPosts = () => dispatch => {
+// export const fetchPosts = () => dispatch => {
+//   const data = getPosts()
+//   .then((response) => {
+//     response.data.map((post) => {
+//       getPostsComments(post.id).then((response) => {return {...post, commentCount: response.data.length}})
+//     })
+//   })
+
+//   data.then((response) => console.log(response))
+
+  // .then((response) => {
+  //   return dispatch({
+  //     type: FETCH_POSTS,
+  //     payload: response
+  //   })
+  // })
+// };
+
+export function fetchPosts() {
+  return dispatch => {
     getPosts()
-    .then((response) => {
-      return dispatch({
-        type: FETCH_POSTS,
-        payload: response.data
-      })
-    })
-};
+    .then((response) =>
+      Promise.all(
+        response.data.map(post =>
+          getPostsComments(post.id)
+            .then(comments => (post.commentCount = comments.data.length))
+            .then(() => post)
+        )
+      )
+    )
+    .then(response => dispatch({ type: FETCH_POSTS, payload: response }));
+  };
+}
 
 export const fetchSinglePost = (id) => dispatch => {
     getSinglePost(id)

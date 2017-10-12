@@ -67,7 +67,7 @@ class CategoryList extends Component {
                           <div className="post-meta">
                             <p>Written by {post.author}, at {timestampToDate(post.timestamp)}</p>
                             <ul>
-                              <li>XXX COMMENTS</li>
+                              <li>{post.commentCount} comment{post.commentCount === 1 ? '' : 's'}</li>
                               <li className="link" onClick={() => {this.handleDeletePost(post.id)}}>Delete</li>
                               <li><Link className="link" to={`/edit/${post.id}`}>Edit</Link></li>
                             </ul>
