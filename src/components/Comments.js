@@ -86,7 +86,7 @@ class Comments extends Component {
     return (
       <div className="panel panel-default">
         <div className="panel-heading">
-          <div className="panel-title"><p>{this.props.comments.length} COMMENT{this.props.comments.length === 1 ? '' : 'S'}</p></div>
+          <div className="panel-title"><p>{this.filteredComments().length} COMMENT{this.filteredComments().length === 1 ? '' : 'S'}</p></div>
           <div className="link" onClick={this.openNewModal.bind(this)}>(Add New Comment)</div>
         </div>
         <div className="not-panel-body">

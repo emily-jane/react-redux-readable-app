@@ -38,24 +38,6 @@ export const fetchCategories = () => dispatch => {
     })
 };
 
-// export const fetchPosts = () => dispatch => {
-//   const data = getPosts()
-//   .then((response) => {
-//     response.data.map((post) => {
-//       getPostsComments(post.id).then((response) => {return {...post, commentCount: response.data.length}})
-//     })
-//   })
-
-//   data.then((response) => console.log(response))
-
-  // .then((response) => {
-  //   return dispatch({
-  //     type: FETCH_POSTS,
-  //     payload: response
-  //   })
-  // })
-// };
-
 export function fetchPosts() {
   return dispatch => {
     getPosts()
@@ -104,7 +86,7 @@ export function createPost(props, callback) {
     category
   }
 
-  const request = postPost(data).then(() => callback());
+  postPost(data).then(() => callback());
 
   return {
     type: CREATE_POST,
@@ -131,7 +113,7 @@ export const createComment = (body, author, parentId) => dispatch => {
 }
 
 export function removePost(postId, callback) {
-  const request = deletePost(postId).then(() => callback());
+  deletePost(postId).then(() => callback());
 
   return {
     type: DELETE_POST,

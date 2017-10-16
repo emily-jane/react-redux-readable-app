@@ -43,7 +43,13 @@ class CategoryList extends Component {
               </div>
               <Comments postId={postId} />
             </div>
-          ) : null}
+          ) :
+            <h1>
+              <span className="glyphicon glyphicon-fire"></span>
+              THIS POST IS UNAVAILABLE
+              <span className="glyphicon glyphicon-fire"></span>
+            </h1>
+          }
         </div>
     )
   }
