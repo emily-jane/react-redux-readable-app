@@ -10,6 +10,10 @@ class PostNewForm extends Component {
     }
   }
 
+  requiredField(value) {
+    return value ? undefined : 'This field is required!'
+  }
+
   onSubmit(values) {
     const postId = this.props.match.params.postId;
     if (postId) {
@@ -33,6 +37,9 @@ class PostNewForm extends Component {
           className="form-control"
           {...field.input}
         />
+        {field.meta.touched && field.meta.error &&
+          <div className="alert alert-danger">{field.meta.error}</div>
+        }
       </div>
     )
   }
@@ -45,6 +52,9 @@ class PostNewForm extends Component {
           className="form-control"
           {...field.input}
         />
+        {field.meta.touched && field.meta.error &&
+          <div className="alert alert-danger">{field.meta.error}</div>
+        }
       </div>
     )
   }
@@ -59,6 +69,9 @@ class PostNewForm extends Component {
           <option value="redux">Redux</option>
           <option value="udacity">Udacity</option>
         </select>
+        {field.meta.touched && field.meta.error &&
+          <div className="alert alert-danger">{field.meta.error}</div>
+        }
       </div>
     )
   }
@@ -73,14 +86,15 @@ class PostNewForm extends Component {
         <Field
           name="title"
           label="Title"
-
           component={this.renderTextField}
+          validate={[this.requiredField]}
         />
 
         <Field
           name="body"
           label="Body"
           component={this.renderTextareaField}
+          validate={[this.requiredField]}
         />
         {!this.props.match.params.postId ? (
         <div>
@@ -88,12 +102,14 @@ class PostNewForm extends Component {
             name="author"
             label="Author"
             component={this.renderTextField}
+            validate={[this.requiredField]}
           />
 
           <Field
             name="category"
             label="Category"
             component={this.renderCategoryField}
+            validate={[this.requiredField]}
           />
         </div>
         ) : null}
