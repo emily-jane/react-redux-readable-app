@@ -26,7 +26,7 @@ class CategoryList extends Component {
             <div>
               <div className="panel panel-default">
                 <div className="panel-heading">
-                  <div className="panel-title"><p>{posts.title}</p></div>
+                  <div className="panel-title"><p>{posts.title}    <span className="badge">{posts.voteScore}</span></p></div>
                   <div className="post-data">
                     <div className="post-meta">
                       <ul>
